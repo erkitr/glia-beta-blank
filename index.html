@@ -5,14 +5,24 @@
   <meta charset="utf-8">
   <title>Hello World Glia</title>
 
-	<script>
-		//Read idtoken from query parameter with the same name.
-		const params = new Proxy(new URLSearchParams(window.location.search), {
-			get: (searchParams, prop) => searchParams.get(prop),
-		});
-		const idToken = params.idtoken;
-		window.getGliaContext = () => ({ idToken });
-    
+	 <script type="text/javascript">
+    const params = new URLSearchParams(window.location.search);
+
+    const getSrc = () => {
+      switch(params.get('env')) {
+        case 'beta':
+          return '//api.beta.salemove.com/salemove_integration.js';
+        case 'prod-us':
+          return '//api.salemove.com/salemove_integration.js';
+        case 'prod-eu':
+          return '//api.salemove.eu/salemove_integration.js';
+        default:
+          return '//api.beta.salemove.com/salemove_integration.js';
+      }
+    }
+    const script = document.createElement('script');
+    script.src = getSrc();
+    document.head.appendChild(script);
   </script>
 </head>
 
